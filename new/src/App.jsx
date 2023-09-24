@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AudioRecorder } from "react-audio-voice-recorder";
+import "./App.css";
 
 const App = () => {
   const [audioBlob, setAudioBlob] = useState(null);
+  const [txt, setTxt] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleAudioUpload = () => {
     if (!audioBlob) {
       console.error("No audio to upload.");
       return;
     }
-
+    setLoading(true);
     const audioData = new FormData();
     audioData.append("audio", audioBlob);
 
@@ -20,9 +23,13 @@ const App = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Audio uploaded successfully:", data);
+        setTxt(data["transcription"]);
       })
       .catch((error) => {
         console.error("Error uploading audio:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Hide loader
       });
   };
 
@@ -32,20 +39,24 @@ const App = () => {
   };
 
   return (
-    <>
-      <h1>Audio Recorder</h1>
-      <AudioRecorder
-        onRecordingComplete={addAudioElement}
-        audioTrackConstraints={{
-          noiseSuppression: true,
-          echoCancellation: true,
-        }}
-        downloadOnSavePress={false}
-        downloadFileExtension="webm"
-      />
-      {audioBlob && <audio controls src={URL.createObjectURL(audioBlob)} />}
-      <button onClick={handleAudioUpload}>Upload Audio</button>
-    </>
+    <div className="container">
+      <h1 className="heading">Kannada Audio Transcription Tool</h1>
+      <div className="audio-container">
+        <AudioRecorder
+          onRecordingComplete={addAudioElement}
+          audioTrackConstraints={{
+            noiseSuppression: true,
+            echoCancellation: true,
+          }}
+          downloadOnSavePress={false}
+          downloadFileExtension="webm"
+        />
+        {audioBlob && <audio controls src={URL.createObjectURL(audioBlob)} />}
+      </div>
+      {!loading && <button onClick={handleAudioUpload}>Upload Audio</button>}
+      {loading && <div className="loader">Transcribing...</div>}
+      {txt && <div className="transcription">{txt}</div>}
+    </div>
   );
 };
 
