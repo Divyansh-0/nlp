@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 1200px;
 
   padding: 20px;
   text-align: center;
@@ -11,6 +10,7 @@
 
 .heading {
   margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .audio-container {
@@ -19,27 +19,68 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 20px;
 }
+
 .audio-recorder {
   margin-bottom: 20px;
 }
 
 button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #4caf50;
   color: #fff;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #9eecc1;
 }
 
 .transcription {
-  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 100%;
+  min-height: 100px;
+  font-family: Arial, sans-serif;
   font-size: 18px;
-  font-weight: bold;
+  resize: vertical;
+  margin-bottom: 20px;
+}
+
+.transcription:focus {
+  outline: none;
+}
+
+.upload-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.upload-container input[type="file"] {
+  display: none;
+}
+
+.upload-container button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.upload-container button:hover {
+  background-color: #45a049;
+}
+
+.upload-container button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
