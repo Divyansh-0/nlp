@@ -20,14 +20,15 @@ def upload_audio():
     with open("temp_audio.wav", "wb") as temp_file:
         temp_file.write(audio_data)
 
-    # Read the audio file using soundfile
-    # audio_np, sample_rate = librosa.load(io.BytesIO(audio_data), sr=None)
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     transcribe = pipeline(
         task="automatic-speech-recognition",
-        model="vasista22/whisper-kannada-tiny",
+        model="vasista22/whisper-kannada-base",
         chunk_length_s=30,
         device=device,
+    )
+    transcribe.model.config.forced_decoder_ids = (
+        transcribe.tokenizer.get_decoder_prompt_ids(language="kn", task="transcribe")
     )
     transcription = transcribe("temp_audio.wav")["text"]
     print(transcription)
